@@ -1,0 +1,42 @@
+1. 파이어베이스를 설치한다.
+    (1) 파이어베이스 app에 설치하고 Gradle을 싱크한다.
+    (2) 인증과 실시간 DB를 사용하고 파일을 받아 app에 설치한다.
+2. 파이어베이스 연동한다
+    (1) 로그인 엑티비티를 만든다.
+        이메일, 패스워드, 가입, 로그인
+    (2) 로그인 Act에 auth로 인증
+        //인증 키 사용방법
+       auth = Firebase.auth
+3. 이메일 로그인 구현
+    (1) 로그인
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    finish()    //성공적으로 저장 되어있다면 LoginActivity를 마친다.
+                } else {
+                    Toast.makeText(this, "로그인에 실패했습니다, 이메일 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+    (2) 회원가입
+        auth.createUserWithEmailAndPassword(email,password)
+            .addOnCompleteListener(this) { task->
+                if(task.isSuccessful){
+                    //새로운 아이디와 새로운 조합일 떄,
+                }else{
+                    //이미 회원가입된 아이디 입니다.
+                }
+            }
+    (3) 메인 엑티비티와 연동
+        메인 엑티비티에 auth를 받아온다.
+        로그인 되지 않았을때, LoginActivity로 이동한다.
+        if(auth.currentUser == null){
+            //로그인 되지 않았을 때
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+        }
+4. 페이스북 로그인 구현
+    (1) 메타 for 디벨로퍼 사이트
+    (2) 로그인 선택
+    (3) 앱 추가해서 이것저것 시키는대로 한다.
+5.
