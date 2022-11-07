@@ -95,6 +95,7 @@ class LoginActivity : AppCompatActivity() {
         val loginBtn = findViewById<Button>(R.id.login_btn)
         val emailEditText = findViewById<EditText>(R.id.email_edittext)
         val passwordEditText = findViewById<EditText>(R.id.password_edittext)
+
         //텍스트가 입력 될때마다 이 리스너로 이벤트가 내려온다.
         emailEditText.addTextChangedListener {
             val enable = emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()
@@ -109,7 +110,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
     private fun handleLogInSuccess() {
         if(auth.currentUser == null){//if문 널처리
             Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
@@ -121,6 +121,7 @@ class LoginActivity : AppCompatActivity() {
             val user = mutableMapOf<String,Any>()
             user["userId"] = userId //user 변수에 현 유저 ID를 저장한다.
             currentUserDB.updateChildren(user)  //그 변수를 DB에 업데이트
+            finish()
         }
     }
 
