@@ -19,9 +19,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if(auth.currentUser == null){
+        if (auth.currentUser == null) {
             //로그인 되지 않았을 때
-            val intent = Intent(this,LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        } else {
+            //로그인 되었을 떄,
+            val intent = Intent(this, LikeActivity::class.java)
             startActivity(intent)
         }
     }
