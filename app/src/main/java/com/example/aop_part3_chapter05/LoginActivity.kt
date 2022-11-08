@@ -111,14 +111,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun handleLogInSuccess() {
-        if(auth.currentUser == null){//if문 널처리
+        if (auth.currentUser == null) {//if문 널처리
             Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
             return
-        }else{
+        } else {
             //로그인시 DB에 저장된 User
             val userId = auth.currentUser?.uid.orEmpty() //로그인 성공시 userID를 받는다.
             val currentUserDB = Firebase.database.reference.child("Users").child(userId) //DB 생성
-            val user = mutableMapOf<String,Any>()
+            val user = mutableMapOf<String, Any>()
             user["userId"] = userId //user 변수에 현 유저 ID를 저장한다.
             currentUserDB.updateChildren(user)  //그 변수를 DB에 업데이트
             finish()
@@ -130,6 +130,7 @@ class LoginActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
+
     private fun clkFaceBookLoginBtn() {
         val facebookLoginBtn = findViewById<LoginButton>(R.id.facebook_login_btn)
         facebookLoginBtn.setPermissions("email", "public_profile")
@@ -137,20 +138,26 @@ class LoginActivity : AppCompatActivity() {
             override fun onSuccess(result: LoginResult) {
                 Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
                 val credential = FacebookAuthProvider.getCredential(result.accessToken.token)
-                Log.d("tinder",credential.toString())
+                Log.d("tinder", credential.toString())
                 //페북 어플에서 credential을 받는다.
                 auth.signInWithCredential(credential)
-                    .addOnCompleteListener(this@LoginActivity) {task->
-                        if(task.isSuccessful){
+                    .addOnCompleteListener(this@LoginActivity) { task ->
+                        if (task.isSuccessful) {
                             finish()
-                        }else{
-                            Toast.makeText(this@LoginActivity, "페이스북 로그인이 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "페이스북 로그인이 실패했습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
             }
+
             override fun onCancel() {
                 //로그인 취소
             }
+
             override fun onError(error: FacebookException) {
                 Toast.makeText(this@LoginActivity, "페북 로그인 실패", Toast.LENGTH_SHORT).show()
             }

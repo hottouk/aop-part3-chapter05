@@ -2,9 +2,12 @@ package com.example.aop_part3_chapter05
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.example.aop_part3_chapter05.adapter.CardItemAdapter
+import com.example.aop_part3_chapter05.model.CardItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -13,11 +16,17 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.yuyakaido.android.cardstackview.CardStackLayoutManager
+import com.yuyakaido.android.cardstackview.CardStackListener
+import com.yuyakaido.android.cardstackview.CardStackView
+import com.yuyakaido.android.cardstackview.Direction
 
 class LikeActivity : AppCompatActivity() {
 
     private val auth: FirebaseAuth = Firebase.auth
     private lateinit var usersDB: DatabaseReference
+    private val adapter = CardItemAdapter()
+    private val cardItems = mutableListOf<CardItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +46,22 @@ class LikeActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
+        initCardStackView()
+    }
 
-
+    private fun initCardStackView() {
+        val cardStackView : CardStackView = findViewById(R.id.card_stack_view)
+        cardStackView.layoutManager = CardStackLayoutManager(this, object : CardStackListener{
+            override fun onCardDragging(direction: Direction?, ratio: Float) {}
+            override fun onCardSwiped(direction: Direction?) {
+                TODO("Not yet implemented")
+            }
+            override fun onCardRewound() {}
+            override fun onCardCanceled() {}
+            override fun onCardAppeared(view: View?, position: Int) {}
+            override fun onCardDisappeared(view: View?, position: Int) {}
+        })
+        cardStackView.adapter = adapter
     }
 
     private fun showNameInputPopUp() {
