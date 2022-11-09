@@ -3,6 +3,7 @@ package com.example.aop_part3_chapter05.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aop_part3_chapter05.R
 import com.example.aop_part3_chapter05.model.CardItem
@@ -11,11 +12,13 @@ class CardItemAdapter(
     private val cardItems : List<CardItem>
 ) : RecyclerView.Adapter<CardItemAdapter.CardViewHolder>(){
     inner class CardViewHolder(itemVIew:View): RecyclerView.ViewHolder(itemVIew) {
-        init {
+        private val nameTextView : TextView
 
+        init {
+            nameTextView = itemVIew.findViewById<TextView>(R.id.name_textview)
         }
         fun bindViews(cardItem : CardItem){
-
+            nameTextView.text = cardItem.name
         }
     }
 
@@ -26,7 +29,7 @@ class CardItemAdapter(
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        //todo 바인딩
+        holder.bindViews(cardItems[position])
     }
 
     override fun getItemCount(): Int {
