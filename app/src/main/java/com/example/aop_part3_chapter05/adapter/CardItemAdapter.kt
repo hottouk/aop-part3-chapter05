@@ -9,16 +9,14 @@ import com.example.aop_part3_chapter05.R
 import com.example.aop_part3_chapter05.model.CardItem
 
 class CardItemAdapter(
-    private val cardItems : List<CardItem>
-) : RecyclerView.Adapter<CardItemAdapter.CardViewHolder>(){
-    inner class CardViewHolder(itemVIew:View): RecyclerView.ViewHolder(itemVIew) {
-        private val nameTextView : TextView
+    private var cardItems: List<CardItem> = emptyList()
+) : RecyclerView.Adapter<CardItemAdapter.CardViewHolder>() {
+    inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        init {
-            nameTextView = itemVIew.findViewById<TextView>(R.id.name_textview)
-        }
-        fun bindViews(cardItem : CardItem){
-            nameTextView.text = cardItem.name
+        private val nameTextView: TextView = itemView.findViewById(R.id.name_textview)
+
+        fun bindViews(cardItem: CardItem) {
+            nameTextView.text = cardItem.userName
         }
     }
 
