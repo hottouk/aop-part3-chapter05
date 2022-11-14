@@ -11,17 +11,36 @@
         android:layout_height="wrap_content"
         android:text="LikeActivity"
         android:textSize="55sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/card_stack_view"
         android:layout_width="0dp"
         android:layout_height="300dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/match_list_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="매치 리스트"
+        app:layout_constraintBottom_toTopOf="@id/log_out_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/log_out_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="로그아웃"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

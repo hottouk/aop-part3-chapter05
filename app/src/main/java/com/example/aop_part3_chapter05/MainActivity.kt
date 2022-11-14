@@ -24,9 +24,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         } else {
-            //로그인 되었을 떄,
+            //로그인 되었을 떄, Like엑티비티가 열린 경우 MainActivity는 종료된다.
             val intent = Intent(this, LikeActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }
