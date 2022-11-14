@@ -29,12 +29,16 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
 
     //파이어베이스 DB
     private lateinit var usersDB: DatabaseReference
+    private val cardItems = mutableListOf<CardItem>(
+        CardItem("hi","there")
+    )
 
     //카드 스와이프 에니메이션
-    private val cardItems = mutableListOf<CardItem>()
-
+    val cardStackView: CardStackView by lazy { findViewById(R.id.card_stack_view) }
+    private val manager by lazy { CardStackLayoutManager(this, this) }
+    private val adapter by lazy { CardItemAdapter()}
     //어댑터
-    private var adapter = CardItemAdapter()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +53,12 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
                 //현재는 UserId
                 if (snapshot.child("userName").value == null) {
                     showNameInputPopUp()
+                    Log.d("tinder", "한번만 실행되어야 하는 코드ㅠㅠ")
                     return
                 }
-                Log.d("tinder", "한번만 실행되어야 하는 코드ㅠㅠ")
                 getUnselectedUsers()
             }
+
             override fun onCancelled(error: DatabaseError) { //변경하다 취소 시
             }
 
@@ -104,7 +109,7 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
     private fun initCardStackView() {
         Log.d("tinder", "카드 스택 그리는 단계")
         val cardStackView: CardStackView = findViewById(R.id.card_stack_view)
-        cardStackView.layoutManager = CardStackLayoutManager(this, this)
+        cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
     }
 
@@ -128,14 +133,15 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
                 ) {
                     val userId = snapshot.child("userId").value.toString()
                     var name = "undecided"
-                    if (snapshot.child("name").value != null) {
-                        name = snapshot.child("name").value.toString()
+                    if (snapshot.child("userName").value != null) {
+                        name = snapshot.child("userName").value.toString()
                     }
                     cardItems.add(CardItem(userId, name))
                     cardItems.forEach {
-                        Log.d("tinder", "현재 cardItems: ${it.toString()}")
+                        Log.d("tinder", "현재 유저 Name: ${it.userName}")
                     }
-                    adapter = CardItemAdapter(cardItems)
+                    cardStackView.layoutManager = manager
+                    cardStackView.adapter = adapter
                     adapter.notifyDataSetChanged() //리사이클러 뷰를 갱신하라는 함수; 최후의 방법으로만 사용하는게 좋다
                 }
             }
@@ -145,7 +151,8 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
                 cardItems.find { it.userId == snapshot.key }?.let {
                     it.userName = snapshot.child("name").value.toString()
                 }
-                adapter = CardItemAdapter(cardItems)
+                cardStackView.layoutManager = manager
+                cardStackView.adapter = adapter
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) { //유저 정보 제거
