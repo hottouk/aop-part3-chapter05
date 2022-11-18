@@ -29,7 +29,7 @@ class MatchedUserActivity : AppCompatActivity() {
     private val adapter by lazy { MatchedUserAdpater(cardItems) }
 
     //컨텐츠
-    private var cardItems = MutableList<CardItem>()
+    private var cardItems = mutableListOf<CardItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

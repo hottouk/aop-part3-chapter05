@@ -9,10 +9,7 @@ import com.example.aop_part3_chapter05.R
 import com.example.aop_part3_chapter05.model.CardItem
 
 class CardItemAdapter(
-    private var cardItems: List<CardItem> = mutableListOf(
-        CardItem("id1","that"),
-        CardItem("id2","that2")
-    )
+    private var cardItems: List<CardItem> = mutableListOf()
 ) : RecyclerView.Adapter<CardItemAdapter.CardViewHolder>() {
     inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

@@ -129,7 +129,6 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
     //카드 스택 그리기
     private fun initCardStackView() {
         Log.d("tinder", "카드 스택 그리는 단계")
-        val cardStackView: CardStackView = findViewById(R.id.card_stack_view)
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
     }
@@ -146,9 +145,9 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
             ) { //스냅샷은 DB의 읽기전용 복사본
                 //유저 추가 된 경우
                 if (snapshot.child("userId").value != getCurrentUserId() //현재 유저 ID가 나와 같지 않고(즉 상대방)
-                    && snapshot.child("likedBy").child("like").hasChild(getCurrentUserId()).not()
+                    && snapshot.child("emotion").child("like").hasChild(getCurrentUserId()).not()
                     //상대방의 좋아요에 내가 없고
-                    && snapshot.child("likedBy").child("disLike").hasChild(getCurrentUserId()).not()
+                    && snapshot.child("emotion").child("disLike").hasChild(getCurrentUserId()).not()
                 //상대방의 싫어요에 내가 없는 경우에 실행한다.
                 ) {
                     Log.d("tinder", "내 아이디: ${getCurrentUserId()}")
@@ -162,18 +161,16 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
                         Log.d("tinder", "다른 User ID: ${it.userId}")
                         Log.d("tinder", "다른 User Name: ${it.userName}")
                     }
-                    cardStackView.layoutManager = manager
-                    cardStackView.adapter = adapter
+                    initCardStackView()
                 }
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                //유저 정보 수정된 경우
+                Log.d("tinder","유저 정보 수정된 경우")
                 cardItems.find { it.userId == snapshot.key }?.let {
                     it.userName = snapshot.child("name").value.toString()
                 }
-                cardStackView.layoutManager = manager
-                cardStackView.adapter = adapter
+                initCardStackView()
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) { //유저 정보 제거
@@ -256,7 +253,7 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
         val card = cardItems[manager.topPosition - 1]
         cardItems.removeFirst() //첫째 값을 지운다.
         usersDB.child(card.userId)
-            .child("likedBy")
+            .child("emotion")
             .child("disLike")
             .child(getCurrentUserId())
             .setValue(true)
